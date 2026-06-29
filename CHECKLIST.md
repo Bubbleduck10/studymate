@@ -85,7 +85,9 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [x] Flow: upload / drag / paste a screenshot, or paste text → notes + quiz
 - [x] Account (email code) + credits badge + Upgrade (in-page Stripe redirect) + decks + flashcards
 - [x] Stripe success/cancel redirect handled via `?checkout=` banner
-- [ ] Run/verify locally + deploy (Cloudflare Pages or GitHub Pages); set `ALLOWED_ORIGINS`
+- [x] Deployed to GitHub Pages → https://bubbleduck10.github.io/studymate/ (built locally → `gh-pages` branch)
+- [ ] Deploy the **backend Worker** + set web `VITE_BACKEND_URL` to it + Worker `ALLOWED_ORIGINS` to the Pages origin (until then the live UI loads but sign-in/generate/decks won't work)
+- [ ] Re-add the Actions auto-deploy workflow (removed — token lacked `workflow` scope); for now redeploy with `cd web && npm run build && npx gh-pages -d dist`
 - [ ] Server-side transcript fetch so a pasted video URL works on web (no DOM scrape here) — v2
 
 ## 8. iOS app (App Store)
