@@ -5,7 +5,7 @@ Snapshot of where we left off (2026-06-28) and what to do next.
 ## ✅ Live & working
 - **App:** https://notejet.app (Cloudflare Pages project `notejet`; also https://notejet.pages.dev)
 - **API:** https://api.notejet.app (Worker `notejet-backend`; backup https://notejet-backend.notejet.workers.dev)
-- Accounts (email code), credits (15 free/mo), generate (notes+quiz), decks, rate limiting — all verified in prod
+- Accounts (email code), credits (10 free/mo), generate (notes+quiz), decks, rate limiting — all verified in prod
 - Chrome extension restyled + pointed at the API (load unpacked from `extension/`)
 - Repo: https://github.com/Bubbleduck10/notejet  · code in `C:\Users\angel\studymate`
 

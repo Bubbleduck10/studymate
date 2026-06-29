@@ -1,6 +1,6 @@
 // Shared helpers: CORS, JSON responses, hashing, HMAC, session tokens.
 
-export const FREE_CREDITS = 15;
+export const FREE_CREDITS = 10;
 
 // CORS headers, computed per-request. If ALLOWED_ORIGINS is unset, allow "*"
 // (handy in dev; the extension bypasses CORS anyway via host_permissions).

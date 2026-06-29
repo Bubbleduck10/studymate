@@ -28,7 +28,7 @@ export default function Home({ go }) {
             </button>
           </div>
           <p className="hero-note reveal" style={{ animationDelay: "0.26s" }}>
-            15 free generations every month · no card required
+            10 free credits every month · no card required
           </p>
         </div>
 

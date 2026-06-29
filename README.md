@@ -45,7 +45,7 @@ curl -X POST http://localhost:8787 \
   -d "{\"text\":\"Photosynthesis converts light, water, and CO2 into glucose and oxygen.\"}"
 ```
 
-The response includes `creditsRemaining`. New ids start with 15 free credits/month
+The response includes `creditsRemaining`. New ids start with 10 free credits/month
 (1 credit per Haiku generation; auto-resets each calendar month).
 
 You should get back JSON with `notes` and `quiz`.

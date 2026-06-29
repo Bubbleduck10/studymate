@@ -14,7 +14,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [x] Cloudflare D1 datastore (`accounts`, `spend_log`)
 - [x] Per-install client id sent with each request
 - [x] Credits: balance per id, charge per generation (model-weighted), refuse at 0
-- [x] Free tier: 15 credits/mo, lazy monthly reset; remaining shown in popup badge
+- [x] Free tier: 10 credits/mo, lazy monthly reset; remaining shown in popup badge
 
 ---
 
@@ -54,7 +54,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [ ] Manage-subscription portal link (Stripe Billing portal — cancel/upgrade, no UI to build)
 - [ ] ⚠️ Sell subscriptions on **web** (Stripe), honor on all platforms — avoids Apple/Google's 15–30% IAP cut
 - [ ] Finalize prices (tune against real API cost — Haiku makes a generation cost well under 1¢):
-  - **Free** — ~15 credits/mo, Haiku only, no saved decks
+  - **Free** — ~10 credits/mo, Haiku only, no saved decks
   - **Pro ~$6.99/mo or $49/yr** — ~500 credits/mo, Pro-quality option, saved decks, spaced repetition, export
   - **Credit packs (one-time)** — e.g. 100 / $4.99, 300 / $9.99 for non-subscribers
 - [ ] Gate Pro-only features by tier in the backend (source of truth — never trust the client)

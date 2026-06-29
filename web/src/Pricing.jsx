@@ -71,7 +71,7 @@ export default function Pricing({ account, onSignIn }) {
             <span className="tier-amount">$0</span> <span className="tier-cadence">forever</span>
           </div>
           <ul className="tier-feats">
-            <li>15 credits / month</li>
+            <li>10 credits / month</li>
             <li>Notes + quizzes</li>
             <li>Save up to 5 decks</li>
             <li>Flashcard study mode</li>
