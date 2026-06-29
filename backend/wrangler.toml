@@ -3,14 +3,22 @@ main = "src/index.js"
 compatibility_date = "2026-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Keep the workers.dev URL enabled alongside the custom domain
+workers_dev = true
+
+# Custom domain for the Worker API (auto-creates DNS + cert on Cloudflare)
+routes = [
+  { pattern = "api.notejet.app", custom_domain = true }
+]
+
 # Set your secret with:  wrangler secret put ANTHROPIC_API_KEY
 # For local dev, put it in backend/.dev.vars instead (see .dev.vars.example).
 
 # Non-secret config (committed). Secrets (ANTHROPIC_API_KEY, AUTH_SECRET,
 # STRIPE_*, RESEND_*) go via `wrangler secret put`, never here.
 [vars]
-ALLOWED_ORIGINS = "https://bubbleduck10.github.io,http://localhost:5173"
-APP_URL = "https://bubbleduck10.github.io/notejet"
+ALLOWED_ORIGINS = "https://notejet.app,https://www.notejet.app,https://notejet.pages.dev,https://bubbleduck10.github.io,http://localhost:5173"
+APP_URL = "https://notejet.app"
 
 # Credits datastore. Create it once with:  wrangler d1 create studymate
 # then paste the printed database_id below.
