@@ -60,12 +60,15 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 - [ ] Gate Pro-only features by tier in the backend (source of truth — never trust the client)
 
 ## 5. UI / design
-- [ ] Name + logo + color palette + type (currently placeholder "StudyMate", indigo accent)
-- [ ] Design the extension popup properly (states: empty, loading, result, error, out-of-credits)
+- [x] Web design system: indigo→violet→pink gradient brand, color palette, animations (reduced-motion safe)
+- [x] Web landing page: hero (animated float card + blobs), feature grid, CTA band
+- [x] Web tabs: Home · How it works (+ FAQ) · Pricing · Try it; sticky navbar; responsive
+- [x] Pricing tab with Free / Pro / credit-pack cards wired to checkout
+- [x] Sign-in modal (animated) + account state in navbar
+- [ ] Logo/wordmark (still the 🧠 emoji placeholder) + final brand name
+- [x] Apply the same look to the **extension popup** (gradient brand, pill tabs, cards, animations)
 - [ ] Loading/skeleton states + nicer error toasts
-- [ ] Result view polish: collapsible notes, quiz cards, "reveal answer", copy/export buttons
-- [ ] Onboarding (first-run: 2-line "how it works")
-- [ ] Settings panel (model quality toggle, account, credits, sign out)
+- [ ] Settings panel (model quality toggle)
 - [ ] Accessibility pass (contrast, keyboard, focus)
 - [ ] Dark mode
 
