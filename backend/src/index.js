@@ -5,6 +5,7 @@ import * as auth from "./auth.js";
 import * as billing from "./billing.js";
 import * as decks from "./decks.js";
 import { MODEL, creditCost, getOrCreateAccount, charge, listHistory } from "./credits.js";
+import { fetchSourceText, isValidHttpUrl } from "./source.js";
 import { enforceLimit } from "./rate.js";
 
 const MAX_TEXT_CHARS = 50000; // ~12k tokens
@@ -155,8 +156,7 @@ async function generate(request, env, ctx) {
   const limited = await enforceLimit(env, request, "gen", 30, 60 * 60 * 1000);
   if (limited) return limited;
 
-  const { text, image } = await safeJson(request);
-  if (!text && !image) return json({ error: "Provide `text` or `image`." }, 400);
+  const { text, image, url } = await safeJson(request);
   if (text && text.length > MAX_TEXT_CHARS) {
     return json({ error: "Text too long (max ~50k characters)." }, 413);
   }
@@ -164,7 +164,17 @@ async function generate(request, env, ctx) {
     return json({ error: "Image too large (max ~5 MB)." }, 413);
   }
 
-  const cost = creditCost({ text, image });
+  // A pasted link is resolved to text server-side (YouTube transcript / page text).
+  let inputText = text;
+  if (!inputText && !image && url) {
+    if (!isValidHttpUrl(url)) return json({ error: "Enter a valid http(s) link." }, 400);
+    const src = await fetchSourceText(url);
+    if (src.error) return json({ error: src.error }, 422);
+    inputText = src.text.slice(0, MAX_TEXT_CHARS); // cap long transcripts
+  }
+  if (!inputText && !image) return json({ error: "Provide `text`, `image`, or a `url`." }, 400);
+
+  const cost = creditCost({ text: inputText, image });
   const account = await getOrCreateAccount(env, who.principal);
   if (account.credits < cost) {
     return json(
@@ -182,8 +192,8 @@ async function generate(request, env, ctx) {
   }
   content.push({
     type: "text",
-    text: text
-      ? `Here is study material (a transcript or notes). Build study notes and a short quiz from it:\n\n${text}`
+    text: inputText
+      ? `Here is study material (a transcript or notes). Build study notes and a short quiz from it:\n\n${inputText}`
       : "This is a screenshot of something the user is studying. Read it and build study notes and a short quiz from it.",
   });
 

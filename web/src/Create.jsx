@@ -5,12 +5,13 @@ import { estimateCost } from "./credits.js";
 
 export default function Create({ onCredits }) {
   const [text, setText] = useState("");
+  const [url, setUrl] = useState("");
   const [result, setResult] = useState(null);
   const [status, setStatus] = useState("");
   const [drag, setDrag] = useState(false);
 
   async function run(payload) {
-    setStatus("Thinking…");
+    setStatus(payload.url ? "Reading the link…" : "Thinking…");
     setResult(null);
     const { ok, status: s, data } = await api.generate(payload);
     if (s === 402) {
@@ -84,6 +85,14 @@ export default function Create({ onCredits }) {
         </label>
       </div>
 
+      <input
+        className="field"
+        type="url"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        placeholder="…or paste a YouTube video or article link"
+      />
+
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -94,18 +103,24 @@ export default function Create({ onCredits }) {
         className="primary"
         onClick={() => {
           const t = text.trim();
-          if (!t) return setStatus("Paste some text or add a screenshot.");
-          run({ text: t });
+          const u = url.trim();
+          if (t) run({ text: t });
+          else if (u) run({ url: u });
+          else setStatus("Paste a link, some text, or add a screenshot.");
         }}
       >
         Generate notes &amp; quiz
       </button>
 
-      {text.trim() && (
+      {text.trim() ? (
         <p className="muted-sm" style={{ marginTop: 8 }}>
           ≈ {estimateCost(text)} credit{estimateCost(text) > 1 ? "s" : ""} for this generation
         </p>
-      )}
+      ) : url.trim() ? (
+        <p className="muted-sm" style={{ marginTop: 8 }}>
+          Credits depend on the transcript length (1–3).
+        </p>
+      ) : null}
 
       <div className="status">{status}</div>
       {result && (

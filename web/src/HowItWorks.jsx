@@ -6,7 +6,7 @@ const STEPS = [
 
 const FAQ = [
   { q: "Do I need an account?", a: "No — you get 10 free credits a month right away. Sign in to keep your credits and save decks across devices." },
-  { q: "What can I feed it?", a: "Screenshots (slides, PDFs, articles), pasted transcripts, or your own notes. On the browser extension you can also grab a YouTube transcript." },
+  { q: "What can I feed it?", a: "Screenshots (slides, PDFs, articles), pasted transcripts or notes, or a link — paste a YouTube video or article URL and we'll pull the transcript/text for you. (Video-only posts like X/TikTok need captions or pasted text.)" },
   { q: "Is my stuff private?", a: "Your material is only sent to generate your notes and quiz. We don't sell it or use it for ads." },
 ];
 
