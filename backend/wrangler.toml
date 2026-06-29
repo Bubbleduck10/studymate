@@ -1,0 +1,14 @@
+name = "studymate-backend"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Set your secret with:  wrangler secret put ANTHROPIC_API_KEY
+# For local dev, put it in backend/.dev.vars instead (see .dev.vars.example).
+
+# Credits datastore. Create it once with:  wrangler d1 create studymate
+# then paste the printed database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "studymate"
+database_id = "REPLACE_WITH_ID_FROM_wrangler_d1_create"

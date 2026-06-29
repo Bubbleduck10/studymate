@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>StudyMate</h1>
+      <span id="credits" class="badge"></span>
+    </div>
+
+    <div id="account" class="account"></div>
+
+    <div class="nav">
+      <button id="nav-create" class="navbtn active">Create</button>
+      <button id="nav-decks" class="navbtn">Decks</button>
+    </div>
+
+    <div id="create-view">
+      <div class="row">
+        <button id="shot">📸 Screenshot tab</button>
+        <button id="yt">🎬 YouTube transcript</button>
+      </div>
+      <textarea id="text" placeholder="…or paste a transcript / notes here"></textarea>
+      <button id="gen" class="primary">Generate notes &amp; quiz</button>
+      <div id="status"></div>
+      <button id="save" class="link hidden">💾 Save as deck</button>
+      <div id="out"></div>
+    </div>
+
+    <div id="decks-view" class="hidden">
+      <div id="decks-status"></div>
+      <div id="decks-list"></div>
+      <div id="deck-detail"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

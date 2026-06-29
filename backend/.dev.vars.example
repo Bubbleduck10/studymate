@@ -1,0 +1,25 @@
+# Copy this file to ".dev.vars" (no extension) and fill in. .dev.vars is git-ignored.
+# In production, set these with `wrangler secret put <NAME>` instead.
+
+# Required
+ANTHROPIC_API_KEY=sk-ant-...
+AUTH_SECRET=replace-with-a-long-random-string   # signs session tokens & login codes
+
+# Email provider (optional in dev — without it, login codes print to the wrangler console)
+RESEND_API_KEY=
+EMAIL_FROM=StudyMate <onboarding@resend.dev>
+
+# Stripe (use TEST-mode keys to start). Leave blank until you wire up billing.
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_PRICE_PRO=price_...          # recurring price for the Pro subscription
+STRIPE_PRICE_PACK_100=price_...     # one-time price: 100-credit pack
+STRIPE_PRICE_PACK_300=price_...     # one-time price: 300-credit pack
+APP_URL=http://localhost:8787       # used for Stripe success/cancel redirects
+
+# Hardening (optional)
+# Comma-separated allowlist; leave blank to allow all origins (fine for dev).
+# In prod set e.g.: https://yourapp.com,chrome-extension://<your-extension-id>
+ALLOWED_ORIGINS=
+# Optional Slack/Discord-style webhook that receives {text} on server errors.
+ALERT_WEBHOOK_URL=
