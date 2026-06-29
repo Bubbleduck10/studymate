@@ -19,6 +19,7 @@ routes = [
 [vars]
 ALLOWED_ORIGINS = "https://notejet.app,https://www.notejet.app,https://notejet.pages.dev,https://bubbleduck10.github.io,http://localhost:5173"
 APP_URL = "https://notejet.app"
+EMAIL_FROM = "NoteJet <login@notejet.app>"
 STRIPE_PRICE_PRO_MONTHLY = "price_1Tnnc5LAJpsQIbIMLIQM8Lob"
 STRIPE_PRICE_PRO_6MO = "price_1Tnnc5LAJpsQIbIMDtIon35X"
 STRIPE_PRICE_PRO_ANNUAL = "price_1Tnnc5LAJpsQIbIMrExBShFr"
