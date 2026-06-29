@@ -200,11 +200,10 @@ async function mergeAnonIntoUser(env, userId, clientId) {
     )
       .bind(userPrincipal, seed, period, now)
       .run();
-  } else if (anonCredits != null) {
-    await env.DB.prepare("UPDATE accounts SET credits = credits + ? WHERE id = ?")
-      .bind(anonCredits, userPrincipal)
-      .run();
   }
+  // For an EXISTING user we deliberately do NOT fold the anon balance in —
+  // otherwise signing out and back in would farm the free allotment each time.
+  // (Anonymous accounts can only ever hold free credits; nothing to preserve.)
 
   if (clientId) {
     // Carry any saved decks over to the account, then retire the anon row.
