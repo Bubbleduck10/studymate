@@ -9,6 +9,7 @@ import AuthModal from "./AuthModal.jsx";
 import Terms from "./Terms.jsx";
 import Privacy from "./Privacy.jsx";
 import Profile from "./Profile.jsx";
+import Extension from "./Extension.jsx";
 
 export default function App() {
   const [account, setAccount] = useState({
@@ -76,6 +77,7 @@ export default function App() {
         {view === "terms" && <Terms />}
         {view === "privacy" && <Privacy />}
         {view === "profile" && <Profile account={account} go={go} />}
+        {view === "extension" && <Extension go={go} />}
       </main>
 
       <footer className="footer">

@@ -16,6 +16,7 @@ export default function Navbar({ view, go, account, onSignIn, onSignOut }) {
           {link("home", "Home")}
           {link("how", "How it works")}
           {link("pricing", "Pricing")}
+          {link("extension", "Extension")}
           {link("app", "Try it")}
         </nav>
 
