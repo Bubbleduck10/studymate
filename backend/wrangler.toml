@@ -21,6 +21,7 @@ ALLOWED_ORIGINS = "https://notejet.app,https://www.notejet.app,https://notejet.p
 APP_URL = "https://notejet.app"
 EMAIL_FROM = "NoteJet <login@notejet.app>"
 GOOGLE_CLIENT_ID = "268086658855-ma953bo58e518abhgk49gj797ivvujf9.apps.googleusercontent.com"
+GOOGLE_IOS_CLIENT_ID = "268086658855-gjlhs1f4qb8rmo412stivk41n8o7ena4.apps.googleusercontent.com"
 STRIPE_PRICE_PRO_MONTHLY = "price_1TnnwLLAJpsQIbIMqTMBw41H"
 STRIPE_PRICE_PRO_6MO = "price_1TnnwLLAJpsQIbIMDbndinEy"
 STRIPE_PRICE_PRO_ANNUAL = "price_1TnnwMLAJpsQIbIMHXoHFeqB"

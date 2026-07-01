@@ -92,7 +92,9 @@ export async function verifyCode(env, email, code, clientId) {
 // Google Sign-In: verify the Google ID token server-side, then issue our session
 // (same path as the email flow). GOOGLE_CLIENT_ID must be set in the Worker env.
 export async function googleAuth(env, idToken, clientId) {
-  const payload = await verifyGoogleIdToken(idToken, env.GOOGLE_CLIENT_ID);
+  // Accept tokens minted for the web client OR the iOS client.
+  const allowedAuds = [env.GOOGLE_CLIENT_ID, env.GOOGLE_IOS_CLIENT_ID].filter(Boolean);
+  const payload = await verifyGoogleIdToken(idToken, allowedAuds);
   if (!payload) return json({ error: "Google sign-in failed" }, 401);
   if (!payload.email || payload.email_verified === false) {
     return json({ error: "Google email not verified" }, 401);
@@ -131,8 +133,9 @@ export async function setUsername(env, who, raw) {
   return json({ ok: true, username });
 }
 
-async function verifyGoogleIdToken(idToken, clientId) {
-  if (!idToken || !clientId) return null;
+async function verifyGoogleIdToken(idToken, allowedAuds) {
+  const auds = Array.isArray(allowedAuds) ? allowedAuds : [allowedAuds];
+  if (!idToken || auds.length === 0) return null;
   try {
     const [h, p, s] = idToken.split(".");
     if (!h || !p || !s) return null;
@@ -156,7 +159,7 @@ async function verifyGoogleIdToken(idToken, clientId) {
     if (!ok) return null;
     const payload = JSON.parse(new TextDecoder().decode(b64urlToBytes(p)));
     if (payload.iss !== "accounts.google.com" && payload.iss !== "https://accounts.google.com") return null;
-    if (payload.aud !== clientId) return null;
+    if (!auds.includes(payload.aud)) return null;
     if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000)) return null;
     return payload;
   } catch {

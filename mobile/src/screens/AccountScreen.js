@@ -1,11 +1,14 @@
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator, Switch } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 import { api } from "../api";
 import { colors, GRADIENT } from "../theme";
 import GradientButton from "../components/GradientButton";
+import { googleSignIn } from "../google";
+import { getReminders, setReminders } from "../reminders";
 
 export default function AccountScreen() {
   const insets = useSafeAreaInsets();
@@ -14,6 +17,7 @@ export default function AccountScreen() {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [username, setUsername] = useState("");
+  const [remindersOn, setRemindersOn] = useState(false);
   const [status, setStatus] = useState("");
 
   const refresh = useCallback(async () => {
@@ -27,7 +31,34 @@ export default function AccountScreen() {
     }
   }, []);
 
-  useFocusEffect(useCallback(() => { refresh(); }, [refresh]));
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+      getReminders().then(setRemindersOn);
+    }, [refresh]),
+  );
+
+  async function google() {
+    try {
+      setStatus("Opening Google…");
+      const r = await googleSignIn();
+      if (!r) return setStatus("");
+      const { ok, data } = await api.googleAuth(r.idToken);
+      if (!ok) return setStatus(data.error || "Google sign-in failed.");
+      await api.setToken(data.token);
+      setStatus("");
+      if (data.needsUsername) setStep("username");
+      else refresh();
+    } catch (e) {
+      setStatus(e?.message || "Google sign-in failed.");
+    }
+  }
+
+  async function toggleReminders(v) {
+    const ok = await setReminders(v);
+    if (!ok) return setStatus("Enable notifications in Settings to get reminders.");
+    setRemindersOn(v);
+  }
 
   async function sendCode() {
     if (!email.trim()) return setStatus("Enter your email.");
@@ -104,6 +135,18 @@ export default function AccountScreen() {
           {account.tier !== "pro" && (
             <Text style={styles.hint}>Manage your plan and get more credits at notejet.app.</Text>
           )}
+          <View style={styles.toggleRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.toggleTitle}>Study reminders</Text>
+              <Text style={styles.toggleSub}>A daily nudge to review your decks.</Text>
+            </View>
+            <Switch
+              value={remindersOn}
+              onValueChange={toggleReminders}
+              trackColor={{ false: colors.bgElev, true: colors.indigo }}
+              thumbColor="#fff"
+            />
+          </View>
           <TouchableOpacity style={styles.outBtn} onPress={signOut} activeOpacity={0.8}>
             <Text style={styles.outText}>Sign out</Text>
           </TouchableOpacity>
@@ -113,7 +156,20 @@ export default function AccountScreen() {
       {(step === "out" || step === "sent") && (
         <View>
           <Text style={styles.h1}>Sign in</Text>
-          <Text style={styles.sub}>We'll email you a one-time code — no password.</Text>
+          <Text style={styles.sub}>Continue with Google, or get a one-time email code.</Text>
+          {step === "out" && (
+            <>
+              <TouchableOpacity style={styles.googleBtn} onPress={google} activeOpacity={0.85}>
+                <Ionicons name="logo-google" size={18} color={colors.text} />
+                <Text style={styles.googleText}>Continue with Google</Text>
+              </TouchableOpacity>
+              <View style={styles.divider}>
+                <View style={styles.line} />
+                <Text style={styles.or}>or</Text>
+                <View style={styles.line} />
+              </View>
+            </>
+          )}
           <TextInput
             style={styles.input}
             placeholder="you@email.com"
@@ -210,4 +266,32 @@ const styles = StyleSheet.create({
   credits: { color: colors.text, fontWeight: "700", fontSize: 15 },
   outBtn: { marginTop: 26, borderWidth: 1, borderColor: colors.cardBorder, borderRadius: 14, paddingVertical: 14, alignItems: "center" },
   outText: { color: colors.danger, fontWeight: "700" },
+  googleBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    borderRadius: 14,
+    paddingVertical: 15,
+    marginBottom: 16,
+  },
+  googleText: { color: colors.text, fontWeight: "700", fontSize: 15 },
+  divider: { flexDirection: "row", alignItems: "center", marginBottom: 16 },
+  line: { flex: 1, height: 1, backgroundColor: colors.cardBorder },
+  or: { color: colors.faint, fontSize: 13, paddingHorizontal: 12 },
+  toggleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 24,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+    borderRadius: 14,
+    padding: 16,
+  },
+  toggleTitle: { color: colors.text, fontWeight: "700", fontSize: 15 },
+  toggleSub: { color: colors.muted, fontSize: 13, marginTop: 2 },
 });

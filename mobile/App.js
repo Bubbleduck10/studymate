@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer, DefaultTheme, createNavigationContainerRef } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +12,7 @@ import CreateScreen from "./src/screens/CreateScreen";
 import DecksScreen from "./src/screens/DecksScreen";
 import AccountScreen from "./src/screens/AccountScreen";
 import HelpScreen from "./src/screens/HelpScreen";
+import Onboarding from "./src/Onboarding";
 import { ShareContext } from "./src/shareContext";
 import { colors, GRADIENT } from "./src/theme";
 
@@ -73,24 +75,40 @@ function FloatingTabBar({ state, navigation }) {
 
 export default function App() {
   const [pending, setPending] = useState(null);
+  const [onboarded, setOnboarded] = useState(null); // null = still loading
   const shareValue = { pending, clear: () => setPending(null) };
+
+  useEffect(() => {
+    AsyncStorage.getItem("onboarded").then((v) => setOnboarded(v === "1"));
+  }, []);
 
   return (
     <ShareContext.Provider value={shareValue}>
       <ShareWrapper setPending={setPending} navigationRef={navigationRef}>
         <SafeAreaProvider>
           <StatusBar style="light" />
-          <NavigationContainer ref={navigationRef} theme={navTheme}>
-            <Tab.Navigator
-              screenOptions={{ headerShown: false }}
-              tabBar={(props) => <FloatingTabBar {...props} />}
-            >
-              <Tab.Screen name="Create" component={CreateScreen} />
-              <Tab.Screen name="Decks" component={DecksScreen} />
-              <Tab.Screen name="Help" component={HelpScreen} />
-              <Tab.Screen name="Account" component={AccountScreen} />
-            </Tab.Navigator>
-          </NavigationContainer>
+          {onboarded === null ? (
+            <View style={{ flex: 1, backgroundColor: colors.bg }} />
+          ) : onboarded === false ? (
+            <Onboarding
+              onDone={() => {
+                AsyncStorage.setItem("onboarded", "1");
+                setOnboarded(true);
+              }}
+            />
+          ) : (
+            <NavigationContainer ref={navigationRef} theme={navTheme}>
+              <Tab.Navigator
+                screenOptions={{ headerShown: false }}
+                tabBar={(props) => <FloatingTabBar {...props} />}
+              >
+                <Tab.Screen name="Create" component={CreateScreen} />
+                <Tab.Screen name="Decks" component={DecksScreen} />
+                <Tab.Screen name="Help" component={HelpScreen} />
+                <Tab.Screen name="Account" component={AccountScreen} />
+              </Tab.Navigator>
+            </NavigationContainer>
+          )}
         </SafeAreaProvider>
       </ShareWrapper>
     </ShareContext.Provider>
