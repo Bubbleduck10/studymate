@@ -10,13 +10,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import CreateScreen from "./src/screens/CreateScreen";
 import DecksScreen from "./src/screens/DecksScreen";
 import AccountScreen from "./src/screens/AccountScreen";
+import HelpScreen from "./src/screens/HelpScreen";
 import { ShareContext } from "./src/shareContext";
 import { colors, GRADIENT } from "./src/theme";
 
 const Tab = createBottomTabNavigator();
 export const navigationRef = createNavigationContainerRef();
 
-const ICONS = { Create: "sparkles", Decks: "albums", Account: "person" };
+const ICONS = { Create: "sparkles", Decks: "albums", Help: "help-circle", Account: "person" };
 
 // The Share Extension needs native code that Expo Go can't load, so we only pull
 // it in for real builds. In Expo Go this stays a passthrough and nothing breaks.
@@ -86,6 +87,7 @@ export default function App() {
             >
               <Tab.Screen name="Create" component={CreateScreen} />
               <Tab.Screen name="Decks" component={DecksScreen} />
+              <Tab.Screen name="Help" component={HelpScreen} />
               <Tab.Screen name="Account" component={AccountScreen} />
             </Tab.Navigator>
           </NavigationContainer>
