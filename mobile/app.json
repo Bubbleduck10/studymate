@@ -30,8 +30,7 @@
         {
           "photosPermission": "NoteJet uses your photos so you can turn a screenshot into study notes."
         }
-      ],
-      "expo-status-bar"
+      ]
     ]
   }
 }
