@@ -44,10 +44,12 @@
           "iosActivationRules": {
             "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
             "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
-            "NSExtensionActivationSupportsText": true
+            "NSExtensionActivationSupportsText": true,
+            "NSExtensionActivationSupportsImageWithMaxCount": 1
           },
           "androidIntentFilters": [
-            "text/*"
+            "text/*",
+            "image/*"
           ]
         }
       ],

@@ -76,9 +76,17 @@ export default function CreateScreen() {
       setText(p.text);
       setUrl("");
       setImage(null);
+    } else if (p.image) {
+      setImage({
+        data: p.image.data,
+        mediaType: p.image.mediaType,
+        uri: `data:${p.image.mediaType};base64,${p.image.data}`,
+      });
+      setUrl("");
+      setText("");
     }
     share.clear();
-    runWith(p.url ? { url: p.url } : { text: p.text });
+    runWith(p.url ? { url: p.url } : p.text ? { text: p.text } : { image: p.image });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [share.pending?.id]);
 
